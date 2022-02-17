@@ -1,19 +1,23 @@
-const pretty = require("pretty");
+const puppeteer = require("puppeteer");
 
-const getStateWiseStats = (cheerio$) => {
+const getStateWiseStats = async () => {
   const results = [];
+  const browser = await puppeteer.launch();
+  const page = await browser.newPage();
+  await page.goto("https://www.mohfw.gov.in/");
+  await page.waitForTimeout(2000);
 
-  //   const tableDiv = cheerio$(".data-table, .table-responsive");
-  //   console.log("tableDic", tableDiv.length, tableDiv.children().length);
+  const tr = await page.evaluate(() => {
+    const a = document.querySelectorAll(
+      "#state-data > div > div > div > div > table > tbody > tr > td"
+    ).textContent;
+    console.log("a", a);
+    return a;
+  });
 
-  const table = cheerio$("tbody > tr");
-  console.log(
-    pretty(cheerio$(table).text()),
-    typeof cheerio$(table).children(),
-    table.length
-  );
-  //   const tableBody = cheerio$(table).find("tbody").children();
-  //   console.log(table.children().length);
+  console.log("tr:", tr);
+  await browser.close();
+
   return results;
 };
 

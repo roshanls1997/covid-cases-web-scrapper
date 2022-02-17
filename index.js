@@ -10,6 +10,6 @@ const urlToScrape = "https://www.mohfw.gov.in/";
   const $ = cheerio.load(data);
 
   const IndiaStat = getIndiaStatData($);
-  const stateWiseState = getStateWiseStats($);
-  // console.log("stateWiseState: ", stateWiseState, IndiaStat);
+  const stateWiseState = await getStateWiseStats();
+  console.log("stateWiseState: ", stateWiseState, IndiaStat);
 })();
